@@ -9,16 +9,22 @@ const Register = () => {
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [message, setMessage] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [isSuccessful, setIsSuccessful] = useState(false);
     const navigate = useNavigate();
 
     const handleRegister = async (e) => {
         e.preventDefault();
+        setLoading(true);
         try {
             await registerUser(name, email, password);
             setMessage('Registration successful. You can now log in');
+            setIsSuccessful(true);
             setTimeout(() => navigate('/'), 2000);
         } catch (err) {
             setMessage(err);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -27,7 +33,7 @@ const Register = () => {
             <div className="row w-100 h-100">
                 <div className="col-md-6 p-5 bg-white d-flex flex-column justify-content-center">
                     <h3 className="mb-4 w-75 mx-auto">Sign Up</h3>
-                    {message && <div className='alert alert-danger'>{message}</div>}
+                    {message && <div className={`alert w-75 mx-auto ${isSuccessful ? 'alert-success' : 'alert-danger'}`}>{message}</div>}
                     <form onSubmit={handleRegister} className='w-75 mx-auto'>
                         <div className='mb-3 w-100 input-group'>
                             <input type="text" className="form-control" placeholder='Name' value={name} onChange={(e) => setName(e.target.value)} required/>
@@ -46,7 +52,10 @@ const Register = () => {
                             <input type="checkbox" className="form-check-input" id="remember" />
                             <label className="form-check-label" htmlFor="remember">Remember me</label>
                         </div>
-                        <button type="submit" className='btn btn-primary w-100'>Sign up</button>
+                        <button type="submit" className='btn btn-primary w-100' disabled={loading}>
+                            Sign up
+                        </button>
+                        {loading ? <p>Registering new user...</p> : ''}
                     </form>
                 </div>
                 <div className="col-md-6 d-none d-md-block bg-primary text-white d-flex align-items-center justify-content-center" style={{ backgroundImage: "url('/assets/LA-image.jpg')", backgroundSize: "cover" }}>
