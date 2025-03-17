@@ -12,6 +12,7 @@ export const loginUser = async (email, password) => {
         const response = await api.post('/auth/login', { email, password });
         if (response.data.token) {
             localStorage.setItem('token', response.data.token);
+            localStorage.setItem('userId', response.data.user.id);
         }
         return response.data;
     } catch (error) {
@@ -49,8 +50,15 @@ export const updateUserStatus = async (action, userIds) => {
         await api.post('/users/action', { action, userIds }, {
             headers: { Authorization: `Bearer ${token}` }
         });
+
         return `${action} successful`;
     } catch (error) {
+        if (error.response?.status === 403) {
+            alert("Your account has been blocked. You will now be logged out.");
+            localStorage.removeItem('token');
+            localStorage.removeItem('userId');
+            window.location.href = '/';
+        }
         throw error.response?.data?.message || `Failed to ${action} users`;
     }
 };

@@ -20,7 +20,6 @@ const Dashboard = () => {
 
     const loadUsers = async () => {
         try {
-
             const data = await fetchUsers();
             setUsers(data);
         } catch (err) {
@@ -41,7 +40,7 @@ const Dashboard = () => {
             loadUsers();
             setSelectedUsers([]);
         } catch (err) {
-            setError(err);
+            setError(err);            
         }
     };
 
@@ -69,6 +68,7 @@ const Dashboard = () => {
 
     const handleLogout = () => {
         localStorage.removeItem("token");
+        localStorage.removeItem("userId");
         navigate("/");
     };
     
