@@ -11,7 +11,7 @@ export const loginUser = async (email, password) => {
     try {
         const response = await api.post('/auth/login', { email, password });
         if (response.data.token) {
-            localStorage.setItem('token', response.data.token); // ✅ Store token
+            localStorage.setItem('token', response.data.token);
         }
         return response.data;
     } catch (error) {
@@ -32,7 +32,6 @@ export const fetchUsers = async () => {
     try {
         const token = localStorage.getItem('token');
         if (!token) {
-            console.error("❌ No token found in localStorage");
             throw new Error("Unauthorized: No token found");
         }
         const response = await api.get('/users', {
