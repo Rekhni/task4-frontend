@@ -66,6 +66,17 @@ const Dashboard = () => {
         return `${diffYears} year${diffYears > 1 ? "s" : ""} ago`;
     };
 
+    const handleSelectAll = (e) => {
+        if (e.target.checked) {
+            // Select all users
+            setSelectedUsers(users.map(user => user._id));
+        } else {
+            // Deselect all
+            setSelectedUsers([]);
+        }
+    };
+    
+
     const handleLogout = () => {
         localStorage.removeItem("token");
         localStorage.removeItem("userId");
@@ -91,7 +102,7 @@ const Dashboard = () => {
                         <th>
                             <input 
                                 type="checkbox"
-                                onChange={(e) => handleSelection(e.target.checked ? users.map((user) => user._id) : [])}
+                                onChange={handleSelectAll}
                                 checked={selectedUsers.length === users.length && users.length > 0}
                             />
                         </th>
