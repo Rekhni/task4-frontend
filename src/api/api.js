@@ -54,7 +54,6 @@ export const updateUserStatus = async (action, userIds) => {
         return `${action} successful`;
     } catch (error) {
         if (error.response?.status === 403) {
-            alert("Your account has been blocked. You will now be logged out.");
             localStorage.removeItem('token');
             localStorage.removeItem('userId');
             window.location.href = '/';

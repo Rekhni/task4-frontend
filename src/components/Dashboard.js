@@ -96,6 +96,7 @@ const Dashboard = () => {
                             />
                         </th>
                         <th className='font-weight-bold'>Name</th>
+                        <th>Status</th>
                         <th>Email</th>
                         <th>Last seen</th>
                     </tr>
@@ -113,6 +114,7 @@ const Dashboard = () => {
                             <td className={user.status === 'blocked' ? 'text-muted opacity-50 text-decoration-line-through' : 'text-dark'}>
                                 {user.name}
                             </td>
+                            <td className={user.status === 'blocked' ? 'text-danger' : 'text-success'}>{user.status}</td>
                             <td className={user.status === 'blocked' ? 'text-muted opacity-50 text-decoration-line-through' : 'text-dark'}>{user.email}</td>
                             <td className={user.status === 'blocked' ? 'text-muted opacity-50' : 'text-dark'}>{formattedLastLogin(user.last_login)}</td>
                             <td>
